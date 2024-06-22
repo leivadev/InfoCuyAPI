@@ -1,4 +1,4 @@
-package com.zosh.InfoCuy.Repository;
+package com.example.infocuyAPI.Repositories;
 
 public class touristAttractionRepository {
     

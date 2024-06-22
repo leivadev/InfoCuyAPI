@@ -1,6 +1,6 @@
-package com.zosh.InfoCuy.Model;
+package com.example.infocuyAPI.Models;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 @Entity
 @Table(name = "public_services")

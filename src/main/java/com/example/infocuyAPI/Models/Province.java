@@ -1,4 +1,4 @@
-package com.zosh.InfoCuy.Model;
+package com.example.infocuyAPI.Models;
 
 import java.util.List;
 
