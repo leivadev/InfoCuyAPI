@@ -170,29 +170,28 @@ CREATE TABLE IF NOT EXISTS local_news (
     FOREIGN KEY (fk_author) REFERENCES authors(author_id)
 );
 
-DROP TABLE IF EXISTS public_service_types;
-CREATE TABLE IF NOT EXISTS public_service_types (
-    public_service_type_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    public_service_type_name VARCHAR(100) NOT NULL,
+DROP TABLE IF EXISTS service_types;
+CREATE TABLE IF NOT EXISTS service_types (
+    service_type_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    service_type_name VARCHAR(100) NOT NULL,
     created_at timestamp NULL DEFAULT current_timestamp(),
     updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 );
 
-INSERT INTO public_service_types (public_service_type_name) VALUES
+INSERT INTO service_types (service_type_name) VALUES
     ('Healthcare Services'), ('Educational Services'),
     ('Social Welfare Services'), ('Public Safety Services'),
     ('Environmental Services'), ('Transportation Services'),
     ('Housing Services'), ('Legal Aid Services'),
     ('Community Development Services'), ('Emergency Response Services');
 
-DROP TABLE IF EXISTS public_services;
-CREATE TABLE IF NOT EXISTS public_services (
-     public_service_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+DROP TABLE IF EXISTS services;
+CREATE TABLE IF NOT EXISTS services (
+     service_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
      fk_district INT NOT NULL,
-     fk_public_service_type INT NOT NULL,
+     fk_service_type INT NOT NULL,
      public_service_name VARCHAR(100) NOT NULL,
-     address VARCHAR(255) NOT NULL,
-     opening_hours JSON,
+     website VARCHAR(255) NOT NULL,
      phone_number VARCHAR(12),
      email VARCHAR(255),
      isDeleted TINYINT(1) NOT NULL DEFAULT 0,
@@ -200,5 +199,5 @@ CREATE TABLE IF NOT EXISTS public_services (
      updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 
      FOREIGN KEY (fk_district) REFERENCES districts(district_id),
-     FOREIGN KEY (fk_public_service_type) REFERENCES public_service_types(public_service_type_id)
+     FOREIGN KEY (fk_service_type) REFERENCES service_types(service_type_id)
 );
