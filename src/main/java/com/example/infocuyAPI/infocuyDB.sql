@@ -156,6 +156,7 @@ CREATE TABLE IF NOT EXISTS local_news (
     local_news_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     fk_district INT NOT NULL,
     fk_author INT NOT NULL,
+    fk_tag INT NOT NULL,
     title VARCHAR(100) NOT NULL,
     content TEXT NOT NULL,
     photo VARCHAR(255) NOT NULL,
@@ -165,6 +166,7 @@ CREATE TABLE IF NOT EXISTS local_news (
     updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 
     FOREIGN KEY (fk_district) REFERENCES districts(district_id),
+    FOREIGN KEY (fk_tag) REFERENCES tags(id_tag),
     FOREIGN KEY (fk_author) REFERENCES authors(author_id)
 );
 
