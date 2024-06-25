@@ -154,7 +154,7 @@ VALUES
 DROP TABLE IF EXISTS local_news;
 CREATE TABLE IF NOT EXISTS local_news (
     local_news_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    fk_district INT NOT NULL,
+    fk_district INT,
     fk_author INT NOT NULL,
     fk_tag INT NOT NULL,
     title VARCHAR(100) NOT NULL,
@@ -188,16 +188,25 @@ INSERT INTO service_types (service_type_name) VALUES
 DROP TABLE IF EXISTS services;
 CREATE TABLE IF NOT EXISTS services (
      service_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-     fk_district INT NOT NULL,
      fk_service_type INT NOT NULL,
      public_service_name VARCHAR(100) NOT NULL,
-     website VARCHAR(255) NOT NULL,
+     website VARCHAR(255),
      phone_number VARCHAR(12),
      email VARCHAR(255),
      isDeleted TINYINT(1) NOT NULL DEFAULT 0,
      created_at timestamp NULL DEFAULT current_timestamp(),
      updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 
-     FOREIGN KEY (fk_district) REFERENCES districts(district_id),
      FOREIGN KEY (fk_service_type) REFERENCES service_types(service_type_id)
+);
+
+DROP TABLE IF EXISTS services_districts;
+CREATE TABLE IF NOT EXISTS services_districts (
+    fk_service INT NOT NULL,
+    fk_district INT NOT NULL,
+    created_at timestamp NULL DEFAULT current_timestamp(),
+    updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    FOREIGN KEY (fk_service) REFERENCES services(service_id),
+    FOREIGN KEY (fk_district) REFERENCES districts(district_id),
+    PRIMARY KEY (fk_service, fk_district)
 );
