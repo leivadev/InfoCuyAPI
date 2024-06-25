@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS tourist_attractions (
      phone_number VARCHAR(12),
      email VARCHAR(255),
      website_url VARCHAR(255),
-     isDeleted TINYINT(1)  NOT NULL DEFAULT 0 NOT NULL DEFAULT 0,
+     is_deleted TINYINT(1)  NOT NULL DEFAULT 0 NOT NULL DEFAULT 0,
      created_at timestamp NULL DEFAULT current_timestamp(),
      updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS events (
     location VARCHAR(100) NOT NULL,
     phone_number VARCHAR(12),
     email VARCHAR(255),
-    isDeleted TINYINT(1) NOT NULL DEFAULT 0,
+    is_deleted TINYINT(1) NOT NULL DEFAULT 0,
     created_at timestamp NULL DEFAULT current_timestamp(),
     updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS authors (
      profile_photo VARCHAR(255),
      description VARCHAR(255),
      email VARCHAR(100),
-     isDeleted TINYINT(1) NOT NULL DEFAULT 0,
+     is_deleted TINYINT(1) NOT NULL DEFAULT 0,
      created_at timestamp NULL DEFAULT current_timestamp(),
      updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 );
@@ -153,7 +153,7 @@ VALUES
 
 DROP TABLE IF EXISTS local_news;
 CREATE TABLE IF NOT EXISTS local_news (
-    local_news_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    local_new_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     fk_district INT,
     fk_author INT NOT NULL,
     fk_tag INT NOT NULL,
@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS local_news (
     content TEXT NOT NULL,
     photo VARCHAR(255) NOT NULL,
     publication_date DATE NOT NULL,
-    isDeleted TINYINT(1) NOT NULL DEFAULT 0,
+    is_deleted TINYINT(1) NOT NULL DEFAULT 0,
     created_at timestamp NULL DEFAULT current_timestamp(),
     updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 
@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS services (
      website VARCHAR(255),
      phone_number VARCHAR(12),
      email VARCHAR(255),
-     isDeleted TINYINT(1) NOT NULL DEFAULT 0,
+     is_deleted TINYINT(1) NOT NULL DEFAULT 0,
      created_at timestamp NULL DEFAULT current_timestamp(),
      updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 
