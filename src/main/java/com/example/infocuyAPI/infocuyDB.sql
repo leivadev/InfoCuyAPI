@@ -9,28 +9,28 @@ USE infocuyDB;
 
 DROP TABLE IF EXISTS provinces;
 CREATE TABLE IF NOT EXISTS provinces (
-    province_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    province_name VARCHAR(100) NOT NULL,
-    created_at timestamp NULL DEFAULT current_timestamp(),
-    updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+    provinceId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    provinceName VARCHAR(100) NOT NULL,
+    createdAt timestamp NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 );
 
-INSERT INTO provinces (province_name) VALUES
+INSERT INTO provinces (provinceName) VALUES
     ('Bocas del Toro'), ('Coclé'), ('Colón'), ('Chiriquí'), ('Darién'),
     ('Herrera'), ('Los Santos'), ('Panamá'), ('Panamá Oeste'), ('Veraguas');
 
 DROP TABLE IF EXISTS districts;
 CREATE TABLE IF NOT EXISTS districts (
-    district_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    districtId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     fk_province INT NOT NULL,
-    district_name VARCHAR(100) NOT NULL,
-    created_at timestamp NULL DEFAULT current_timestamp(),
-    updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    districtName VARCHAR(100) NOT NULL,
+    createdAt timestamp NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 
-    FOREIGN KEY (fk_province) REFERENCES provinces(province_id)
+    FOREIGN KEY (fk_province) REFERENCES provinces(provinceId)
 );
 
-INSERT INTO districts (fk_province, district_name) VALUES
+INSERT INTO districts (fk_province, districtName) VALUES
     (4, 'Alanje'), (4, 'Barú'), (4, 'Boquerón'),
     (4, 'Boquete'), (4, 'Bugaba'), (4, 'David'),
     (4, 'Dolega'), (4, 'Gualaca'), (4, 'Remedios'),
@@ -39,61 +39,59 @@ INSERT INTO districts (fk_province, district_name) VALUES
 
 DROP TABLE IF EXISTS statuses;
 CREATE TABLE IF NOT EXISTS statuses (
-    status_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    status_name VARCHAR(50) NOT NULL,
-    created_at timestamp NULL DEFAULT current_timestamp(),
-    updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+    statusId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    statusName VARCHAR(50) NOT NULL,
+    createdAt timestamp NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 );
 
-INSERT INTO statuses (status_name) VALUES ('In Progress'), ('Canceled'), ('Completed');
+INSERT INTO statuses (statusName) VALUES ('In Progress'), ('Canceled'), ('Completed');
 
-DROP TABLE IF EXISTS tourist_attraction_types;
-CREATE TABLE IF NOT EXISTS tourist_attraction_types (
-    tourist_attraction_type_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    tourist_attraction_type_name VARCHAR(100) NOT NULL,
-    created_at timestamp NULL DEFAULT current_timestamp(),
-    updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+DROP TABLE IF EXISTS touristAttractionTypes;
+CREATE TABLE IF NOT EXISTS touristAttractionTypes (
+    touristAttractionTypeId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    touristAttractionTypeName VARCHAR(100) NOT NULL,
+    createdAt timestamp NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 );
 
-INSERT INTO tourist_attraction_types (tourist_attraction_type_name) VALUES
+INSERT INTO touristAttractionTypes (touristAttractionTypeName) VALUES
     ('Beaches'), ('Mountains'), ('Coffee Plantations'),
     ('Wildlife Reserves'), ('National Parks'), ('Waterfalls'),
     ('Hot Springs'), ('Rivers'), ('Caves'),
     ('Cultural Sites'), ('Adventure Sports'), ('Botanical Gardens'),
     ('Historical Landmarks'), ('Park'), ('Art Galleries'), ('Others');
 
-DROP TABLE IF EXISTS tourist_attractions;
-CREATE TABLE IF NOT EXISTS tourist_attractions (
-     tourist_attraction_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-     fk_district INT NOT NULL,
-     fk_status INT NOT NULL,
-     fk_tourist_attraction_type INT NOT NULL,
-     tourist_attraction_name VARCHAR(100) NOT NULL,
-     description VARCHAR(255) NOT NULL,
-     photo VARCHAR(255) NOT NULL,
-     address VARCHAR(255) NOT NULL,
-     opening_hours JSON NOT NULL,
-     phone_number VARCHAR(12),
-     email VARCHAR(255),
-     website_url VARCHAR(255),
-     is_deleted TINYINT(1)  NOT NULL DEFAULT 0 NOT NULL DEFAULT 0,
-     created_at timestamp NULL DEFAULT current_timestamp(),
-     updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+DROP TABLE IF EXISTS touristAttractions;
+CREATE TABLE IF NOT EXISTS touristAttractions (
+    touristAttractionId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fk_district INT NOT NULL,
+    fk_TouristAttractionType INT NOT NULL,
+    touristAttractionName VARCHAR(100) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    photo VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    openingHours JSON NOT NULL,
+    phoneNumber VARCHAR(12),
+    email VARCHAR(255),
+    websiteUrl VARCHAR(255),
+    isDeleted TINYINT(1) NOT NULL DEFAULT 0,
+    createdAt timestamp NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 
-     FOREIGN KEY (fk_district) REFERENCES districts(district_id),
-     FOREIGN KEY (fk_status) REFERENCES statuses(status_id),
-     FOREIGN KEY (fk_tourist_attraction_type) REFERENCES tourist_attraction_types(tourist_attraction_type_id)
+    FOREIGN KEY (fk_district) REFERENCES districts(districtId),
+    FOREIGN KEY (fk_TouristAttractionType) REFERENCES touristAttractionTypes(touristAttractionTypeId)
 );
 
-DROP TABLE IF EXISTS event_types;
-CREATE TABLE IF NOT EXISTS event_types (
-     event_type_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-     event_type_name VARCHAR(100) NOT NULL,
-     created_at timestamp NULL DEFAULT current_timestamp(),
-     updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+DROP TABLE IF EXISTS eventTypes;
+CREATE TABLE IF NOT EXISTS eventTypes (
+    eventTypeId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    eventTypeName VARCHAR(100) NOT NULL,
+    createdAt timestamp NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 );
 
-INSERT INTO event_types (event_type_name) VALUES
+INSERT INTO eventTypes (eventTypeName) VALUES
     ('Social'), ('Sports'), ('Cultural'),
     ('Music'), ('Academic'), ('Technology'),
     ('Charity'), ('Health'), ('Political'),
@@ -101,47 +99,47 @@ INSERT INTO event_types (event_type_name) VALUES
 
 DROP TABLE IF EXISTS events;
 CREATE TABLE IF NOT EXISTS events (
-    event_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    eventId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     fk_district INT NOT NULL,
     fk_status INT NOT NULL,
-    fk_event_type INT NOT NULL,
-    event_name VARCHAR(100) NOT NULL,
+    fk_eventType INT NOT NULL,
+    eventName VARCHAR(100) NOT NULL,
     description VARCHAR(255) NOT NULL,
     photo VARCHAR(255) NOT NULL,
-    start_date DATETIME NOT NULL,
-    end_date DATETIME NOT NULL,
+    startDate DATETIME NOT NULL,
+    endDate DATETIME NOT NULL,
     location VARCHAR(100) NOT NULL,
-    phone_number VARCHAR(12),
+    phoneNumber VARCHAR(12),
     email VARCHAR(255),
-    is_deleted TINYINT(1) NOT NULL DEFAULT 0,
-    created_at timestamp NULL DEFAULT current_timestamp(),
-    updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    isDeleted TINYINT(1) NOT NULL DEFAULT 0,
+    createdAt timestamp NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 
-    FOREIGN KEY (fk_district) REFERENCES districts(district_id),
-    FOREIGN KEY (fk_status) REFERENCES statuses(status_id),
-    FOREIGN KEY (fk_event_type) REFERENCES event_types(event_type_id)
+    FOREIGN KEY (fk_district) REFERENCES districts(districtId),
+    FOREIGN KEY (fk_status) REFERENCES statuses(statusId),
+    FOREIGN KEY (fk_eventType) REFERENCES eventTypes(eventTypeId)
 );
 
 DROP TABLE IF EXISTS authors;
 CREATE TABLE IF NOT EXISTS authors (
-     author_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-     name VARCHAR(100) NOT NULL,
-     role VARCHAR(50),
-     profile_photo VARCHAR(255),
-     description VARCHAR(255),
-     email VARCHAR(100),
-     is_deleted TINYINT(1) NOT NULL DEFAULT 0,
-     created_at timestamp NULL DEFAULT current_timestamp(),
-     updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+    authorId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    role VARCHAR(50),
+    profilePhoto VARCHAR(255),
+    description VARCHAR(255),
+    email VARCHAR(100),
+    isDeleted TINYINT(1) NOT NULL DEFAULT 0,
+    createdAt timestamp NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 );
 
 DROP TABLE IF EXISTS tags;
 CREATE TABLE IF NOT EXISTS tags(
-    id_tag INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name_tag VARCHAR(100) NOT NULL
+    tagId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    tagName VARCHAR(100) NOT NULL
 );
 
-INSERT INTO tags (name_tag)
+INSERT INTO tags (tagName)
 VALUES
     ('Local News'), ('Breaking News'), ('Community'),
     ('City Council'), ('Local Elections'), ('School Board'),
@@ -151,34 +149,34 @@ VALUES
     ('Health and Safety'), ('Local Government'), ('Public Services'),
     ('Community Projects'), ('Local Sports');
 
-DROP TABLE IF EXISTS local_news;
-CREATE TABLE IF NOT EXISTS local_news (
-    local_new_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+DROP TABLE IF EXISTS localNews;
+CREATE TABLE IF NOT EXISTS localNews (
+    localNewsId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     fk_district INT,
     fk_author INT NOT NULL,
     fk_tag INT NOT NULL,
     title VARCHAR(100) NOT NULL,
     content TEXT NOT NULL,
     photo VARCHAR(255) NOT NULL,
-    publication_date DATE NOT NULL,
-    is_deleted TINYINT(1) NOT NULL DEFAULT 0,
-    created_at timestamp NULL DEFAULT current_timestamp(),
-    updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    publicationDate DATE NOT NULL,
+    isDeleted TINYINT(1) NOT NULL DEFAULT 0,
+    createdAt timestamp NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 
-    FOREIGN KEY (fk_district) REFERENCES districts(district_id),
-    FOREIGN KEY (fk_tag) REFERENCES tags(id_tag),
-    FOREIGN KEY (fk_author) REFERENCES authors(author_id)
+    FOREIGN KEY (fk_district) REFERENCES districts(districtId),
+    FOREIGN KEY (fk_tag) REFERENCES tags(tagId),
+    FOREIGN KEY (fk_author) REFERENCES authors(authorId)
 );
 
-DROP TABLE IF EXISTS service_types;
-CREATE TABLE IF NOT EXISTS service_types (
-    service_type_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    service_type_name VARCHAR(100) NOT NULL,
-    created_at timestamp NULL DEFAULT current_timestamp(),
-    updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+DROP TABLE IF EXISTS serviceTypes;
+CREATE TABLE IF NOT EXISTS serviceTypes (
+    serviceTypeId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    serviceTypeName VARCHAR(100) NOT NULL,
+    createdAt timestamp NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 );
 
-INSERT INTO service_types (service_type_name) VALUES
+INSERT INTO serviceTypes (serviceTypeName) VALUES
     ('Healthcare Services'), ('Educational Services'),
     ('Social Welfare Services'), ('Public Safety Services'),
     ('Environmental Services'), ('Transportation Services'),
@@ -187,26 +185,26 @@ INSERT INTO service_types (service_type_name) VALUES
 
 DROP TABLE IF EXISTS services;
 CREATE TABLE IF NOT EXISTS services (
-     service_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-     fk_service_type INT NOT NULL,
-     public_service_name VARCHAR(100) NOT NULL,
-     website VARCHAR(255),
-     phone_number VARCHAR(12),
-     email VARCHAR(255),
-     is_deleted TINYINT(1) NOT NULL DEFAULT 0,
-     created_at timestamp NULL DEFAULT current_timestamp(),
-     updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    serviceId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fk_serviceType INT NOT NULL,
+    publicServiceName VARCHAR(100) NOT NULL,
+    website VARCHAR(255),
+    phoneNumber VARCHAR(12),
+    email VARCHAR(255),
+    isDeleted TINYINT(1) NOT NULL DEFAULT 0,
+    createdAt timestamp NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 
-     FOREIGN KEY (fk_service_type) REFERENCES service_types(service_type_id)
+    FOREIGN KEY (fk_serviceType) REFERENCES serviceTypes(serviceTypeId)
 );
 
 DROP TABLE IF EXISTS services_districts;
 CREATE TABLE IF NOT EXISTS services_districts (
     fk_service INT NOT NULL,
     fk_district INT NOT NULL,
-    created_at timestamp NULL DEFAULT current_timestamp(),
-    updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-    FOREIGN KEY (fk_service) REFERENCES services(service_id),
-    FOREIGN KEY (fk_district) REFERENCES districts(district_id),
+    createdAt timestamp NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    FOREIGN KEY (fk_service) REFERENCES services(serviceId),
+    FOREIGN KEY (fk_district) REFERENCES districts(districtId),
     PRIMARY KEY (fk_service, fk_district)
 );
